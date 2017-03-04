@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.thinkgem.jeesite.modules.org.huluo.hello.dao.world.OrderDao">
+    
+	<sql id="orderColumns">
+		a.id AS "id",
+		a.order_name AS "orderName",
+		a.customer_id AS "customerId"
+	</sql>
+	
+	<sql id="orderJoins">
+		LEFT JOIN customer b ON b.id = a.customer_id
+	</sql>
+
+
+	<parameterMap id="customerType" type="com.thinkgem.jeesite.modules.org.huluo.hello.entity.world.Customer">
+		<!--<parameter property="customerId" javaType=""-->
+	</parameterMap>
+	<select id="get" resultType="Order">
+		SELECT 
+			<include refid="orderColumns"/>
+		FROM order a
+		<include refid="orderJoins"/>
+		WHERE a.id = #{id}
+	</select>
+	
+	<select id="findList" resultType="Order">
+		SELECT 
+			<include refid="orderColumns"/>
+		FROM order a
+		<include refid="orderJoins"/>
+		<where>
+			
+			<if test="customerId != null and customerId != ''">
+				AND a.customer_id = #{customerId}
+			</if>
+		</where>
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+			</otherwise>
+		</choose>
+	</select>
+	
+	<select id="findAllList" resultType="Order">
+		SELECT 
+			<include refid="orderColumns"/>
+		FROM order a
+		<include refid="orderJoins"/>
+		<where>
+			
+		</where>		
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+			</otherwise>
+		</choose>
+	</select>
+	
+	<insert id="insert">
+		INSERT INTO orders(
+			order_name,
+			customer_id
+		) VALUES (
+			#{orderName},
+			#{customerId.id}
+		)
+	</insert>
+	
+	<update id="update">
+		UPDATE order SET 	
+			order_name = #{orderName},
+			customer_id = #{customerId}
+		WHERE id = #{id}
+	</update>
+	
+	<update id="delete">
+		DELETE FROM order
+		<choose>
+			<when test="id !=null and id != ''">
+				WHERE id = #{id}
+			</when>
+			<otherwise>
+				WHERE customer_id = #{customerId}
+			</otherwise>
+		</choose>
+	</update>
+	
+</mapper>
