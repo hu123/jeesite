@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.thinkgem.jeesite.modules.org.huluo.hello.dao.world.CountryDao">
+    
+	<sql id="countryColumns">
+		a.id ,
+		a.country_name
+	</sql>
+	
+	<sql id="countryJoins">
+	</sql>
+    
+	<select id="get" resultType="Country" parameterType="com.thinkgem.jeesite.modules.org.huluo.hello.entity.world.Country">
+		SELECT 
+			<include refid="countryColumns"/>
+		FROM country a
+		<include refid="countryJoins"/>
+		WHERE a.id = #{id}
+	</select>
+	
+	<select id="findList" resultType="Country">
+		SELECT 
+			<include refid="countryColumns"/>
+		FROM country a
+		<include refid="countryJoins"/>
+		<where>
+			
+		</where>
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+			</otherwise>
+		</choose>
+	</select>
+	
+	<select id="findAllList" resultType="Country">
+		SELECT 
+			<include refid="countryColumns"/>
+		FROM country a
+		<include refid="countryJoins"/>
+		<where>
+			
+		</where>		
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+			</otherwise>
+		</choose>
+	</select>
+	
+	<insert id="insert">
+		INSERT INTO country(
+
+			country_name
+		) VALUES (
+			#{countryName}
+		)
+	</insert>
+	
+	<update id="update">
+		UPDATE country SET 	
+			country_name = #{countryName}
+		WHERE id = #{id}
+	</update>
+	
+	<update id="delete">
+		DELETE FROM country
+		WHERE id = #{id}
+	</update>
+	
+</mapper>
