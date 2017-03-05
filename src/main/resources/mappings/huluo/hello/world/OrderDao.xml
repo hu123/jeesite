@@ -1,7 +1,17 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.thinkgem.jeesite.modules.org.huluo.hello.dao.world.OrderDao">
-    
+	<!--
+        <resultMap id="orderResultmap" type="com.thinkgem.jeesite.modules.org.huluo.hello.entity.world.Order">
+            <id column="id" property="id"/>
+            <result column="order_name" property="orderName"/>
+            <association column="customer_id" property="customerId" javaType="com.thinkgem.jeesite.modules.org.huluo.hello.entity.world.Customer">
+                <id column="id" property="id"/>
+                <result column="customer_name" property="customerName"/>
+            </association>
+        </resultMap>
+
+        -->
 	<sql id="orderColumns">
 		a.id AS "id",
 		a.order_name AS "orderName",
@@ -12,14 +22,17 @@
 		LEFT JOIN customer b ON b.id = a.customer_id
 	</sql>
 
+<!--
 
 	<parameterMap id="customerType" type="com.thinkgem.jeesite.modules.org.huluo.hello.entity.world.Customer">
-		<!--<parameter property="customerId" javaType=""-->
+		<parameter property="customerId" javaType="com.thinkgem.jeesite.modules.org.huluo.hello.entity.world.Customer"/>
 	</parameterMap>
+	-->
+
 	<select id="get" resultType="Order">
 		SELECT 
 			<include refid="orderColumns"/>
-		FROM order a
+		FROM orders a
 		<include refid="orderJoins"/>
 		WHERE a.id = #{id}
 	</select>
@@ -27,7 +40,7 @@
 	<select id="findList" resultType="Order">
 		SELECT 
 			<include refid="orderColumns"/>
-		FROM order a
+		FROM orders a
 		<include refid="orderJoins"/>
 		<where>
 			
@@ -47,7 +60,7 @@
 	<select id="findAllList" resultType="Order">
 		SELECT 
 			<include refid="orderColumns"/>
-		FROM order a
+		FROM orders a
 		<include refid="orderJoins"/>
 		<where>
 			
@@ -61,7 +74,7 @@
 		</choose>
 	</select>
 	
-	<insert id="insert">
+	<insert id="insert" >
 		INSERT INTO orders(
 			order_name,
 			customer_id
@@ -72,22 +85,21 @@
 	</insert>
 	
 	<update id="update">
-		UPDATE order SET 	
+		UPDATE orders SET
 			order_name = #{orderName},
 			customer_id = #{customerId}
-		WHERE id = #{id}
+		WHERE id = #{id},
+			customer_id = 3{}
 	</update>
-	
-	<update id="delete">
-		DELETE FROM order
+
+	<update id="delete" parameterType="com.thinkgem.jeesite.modules.org.huluo.hello.entity.world.Order">
+
+		DELETE FROM orders
 		<choose>
 			<when test="id !=null and id != ''">
 				WHERE id = #{id}
 			</when>
-			<otherwise>
-				WHERE customer_id = #{customerId}
-			</otherwise>
+
 		</choose>
 	</update>
-	
 </mapper>

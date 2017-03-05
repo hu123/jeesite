@@ -46,7 +46,7 @@ public class OrderController extends BaseController {
 		return entity;
 	}
 	
-	@RequiresPermissions("hello:world:order:view")
+	@RequiresPermissions("cms:article:view")
 	@RequestMapping(value = {"list", ""})
 	public String list(Order order, HttpServletRequest request, HttpServletResponse response, Model model) {
 		Page<Order> page = orderService.findPage(new Page<Order>(request, response), order); 
@@ -54,13 +54,14 @@ public class OrderController extends BaseController {
 		return "huluo/hello/world/orderList";
 	}
 
-	@RequiresPermissions("hello:world:order:view")
+	@RequiresPermissions("cms:article:view")
 	@RequestMapping(value = "form")
 	public String form(Order order, Model model) {
 		model.addAttribute("order", order);
 		return "huluo/hello/world/orderForm";
 	}
 
+	@RequiresPermissions("cms:article:view")
 	@RequestMapping(value = "save")
 	public String save(Order order, Model model, RedirectAttributes redirectAttributes) {
 		if (!beanValidator(model, order)){
@@ -71,7 +72,7 @@ public class OrderController extends BaseController {
 		return "redirect:"+Global.getAdminPath()+"/hello/world/order/?repage";
 	}
 	
-	@RequiresPermissions("hello:world:order:edit")
+	@RequiresPermissions("cms:article:view")
 	@RequestMapping(value = "delete")
 	public String delete(Order order, RedirectAttributes redirectAttributes) {
 		orderService.delete(order);

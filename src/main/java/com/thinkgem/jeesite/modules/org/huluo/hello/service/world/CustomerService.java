@@ -68,7 +68,7 @@ public class CustomerService extends CrudService<CustomerDao, Customer> {
 	@Transactional(readOnly = false)
 	public void delete(Customer customer) {
 		super.delete(customer);
-		orderDao.delete(new Order(customer));
+//		orderDao.delete(new Order(customer));
 	}
-	
+
 }

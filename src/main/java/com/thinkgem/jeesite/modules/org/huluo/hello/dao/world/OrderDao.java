@@ -14,5 +14,6 @@ import com.thinkgem.jeesite.modules.org.huluo.hello.entity.world.Order;
  */
 @MyBatisDao
 public interface OrderDao extends CrudDao<Order> {
-	
+    void delete1();
+
 }

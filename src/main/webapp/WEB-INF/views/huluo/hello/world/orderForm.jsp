@@ -28,7 +28,7 @@
 <body>
 	<ul class="nav nav-tabs">
 		<li><a href="${ctx}/hello/world/order/">一对多增删改查列表</a></li>
-		<li class="active"><a href="${ctx}/hello/world/order/form?id=${order.id}">一对多增删改查<shiro:hasPermission name="hello:world:order:edit">${not empty order.id?'修改':'添加'}</shiro:hasPermission><shiro:lacksPermission name="hello:world:order:edit">查看</shiro:lacksPermission></a></li>
+		<li class="active"><a href="${ctx}/hello/world/order/form?id=${order.id}">一对多增删改查<shiro:hasPermission name="cms:article:view">${not empty order.id?'修改':'添加'}</shiro:hasPermission><shiro:lacksPermission name="hello:world:order:edit">查看</shiro:lacksPermission></a></li>
 	</ul><br/>
 	<form:form id="inputForm" modelAttribute="order" action="${ctx}/hello/world/order/save" method="post" class="form-horizontal">
 		<form:hidden path="id"/>
@@ -46,7 +46,7 @@
 			</div>
 		</div>
 		<div class="form-actions">
-			<shiro:hasPermission name="hello:world:order:edit"><input id="btnSubmit" class="btn btn-primary" type="submit" value="保 存"/>&nbsp;</shiro:hasPermission>
+			<shiro:hasPermission name="cms:article:view"><input id="btnSubmit" class="btn btn-primary" type="submit" value="保 存"/>&nbsp;</shiro:hasPermission>
 			<input id="btnCancel" class="btn" type="button" value="返 回" onclick="history.go(-1)"/>
 		</div>
 	</form:form>

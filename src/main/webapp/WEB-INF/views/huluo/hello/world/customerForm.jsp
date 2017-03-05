@@ -59,7 +59,7 @@
 <body>
 	<ul class="nav nav-tabs">
 		<li><a href="${ctx}/hello/world/customer/">一对多增删改查列表</a></li>
-		<li class="active"><a href="${ctx}/hello/world/customer/form?id=${customer.id}">一对多增删改查<shiro:hasPermission name="hello:world:customer:edit">${not empty customer.id?'修改':'添加'}</shiro:hasPermission><shiro:lacksPermission name="hello:world:customer:edit">查看</shiro:lacksPermission></a></li>
+		<li class="active"><a href="${ctx}/hello/world/customer/form?id=${customer.id}">一对多增删改查<shiro:hasPermission name="cms:article:view">${not empty customer.id?'修改':'添加'}</shiro:hasPermission><shiro:lacksPermission name="cms:article:view">查看</shiro:lacksPermission></a></li>
 	</ul><br/>
 	<form:form id="inputForm" modelAttribute="customer" action="${ctx}/hello/world/customer/save" method="post" class="form-horizontal">
 		<form:hidden path="id"/>
@@ -78,12 +78,12 @@
 							<tr>
 								<th class="hide"></th>
 								<th>order_name</th>
-								<shiro:hasPermission name="hello:world:customer:edit"><th width="10">&nbsp;</th></shiro:hasPermission>
+								<shiro:hasPermission name="cms:article:view"><th width="10">&nbsp;</th></shiro:hasPermission>
 							</tr>
 						</thead>
 						<tbody id="orderList">
 						</tbody>
-						<shiro:hasPermission name="hello:world:customer:edit"><tfoot>
+						<shiro:hasPermission name="cms:article:view"><tfoot>
 							<tr><td colspan="3"><a href="javascript:" onclick="addRow('#orderList', orderRowIdx, orderTpl);orderRowIdx = orderRowIdx + 1;" class="btn">新增</a></td></tr>
 						</tfoot></shiro:hasPermission>
 					</table>
@@ -96,7 +96,7 @@
 							<td>
 								<input id="orderList{{idx}}_orderName" name="orderList[{{idx}}].orderName" type="text" value="{{row.orderName}}" maxlength="10" class="input-small "/>
 							</td>
-							<shiro:hasPermission name="hello:world:customer:edit"><td class="text-center" width="10">
+							<shiro:hasPermission name="cms:article:view"><td class="text-center" width="10">
 								{{#delBtn}}<span class="close" onclick="delRow(this, '#orderList{{idx}}')" title="删除">&times;</span>{{/delBtn}}
 							</td></shiro:hasPermission>
 						</tr>//-->
@@ -114,7 +114,7 @@
 				</div>
 			</div>
 		<div class="form-actions">
-			<shiro:hasPermission name="hello:world:customer:edit"><input id="btnSubmit" class="btn btn-primary" type="submit" value="保 存"/>&nbsp;</shiro:hasPermission>
+			<shiro:hasPermission name="cms:article:view"><input id="btnSubmit" class="btn btn-primary" type="submit" value="保 存"/>&nbsp;</shiro:hasPermission>
 			<input id="btnCancel" class="btn" type="button" value="返 回" onclick="history.go(-1)"/>
 		</div>
 	</form:form>
