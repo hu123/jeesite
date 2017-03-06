@@ -1,34 +1,44 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.thinkgem.jeesite.modules.org.huluo.hello.dao.world.CityDao">
-    
+
+
+	<resultMap id="cityMap" type="com.thinkgem.jeesite.modules.org.huluo.hello.entity.world.City">
+		<id column="city_id" property="id"/>
+		<result property="cityName" column="city_name"/>
+		<association property="country" javaType="com.thinkgem.jeesite.modules.org.huluo.hello.entity.world.Country">
+			<id column="country_id" property="id"/>
+			<result property="countryName" column="country_name"/>
+
+		</association>
+	</resultMap>
 	<sql id="cityColumns">
-		a.id ,
+		a.city_id ,
 		a.city_name ,
-		a.country_id
+		a.country_city_id
 	</sql>
 	
 	<sql id="cityJoins">
-		LEFT JOIN country b ON b.id = a.country_id
+		LEFT JOIN country b ON b.country_id = a.country_city_id
 	</sql>
     
-	<select id="get" resultType="City">
+	<select id="get" resultMap="cityMap">
 		SELECT 
-			<include refid="cityColumns"/>
+			*
 		FROM city a
 		<include refid="cityJoins"/>
-		WHERE a.id = #{id}
+		WHERE a.city_id = #{id}
 	</select>
-	
-	<select id="findList" resultType="City" parameterType="com.thinkgem.jeesite.modules.org.huluo.hello.entity.world.City">
-		SELECT 
-			<include refid="cityColumns"/>
+	<!-- -->
+	<select id="findList" resultMap="cityMap">
+		SELECT
+			*
 		FROM city a
 		<include refid="cityJoins"/>
 		<where>
-			
+
 			<if test="country != null and country != ''">
-				AND a.country_id = #{country.id}
+				 a.country_city_id = #{country.id}
 			</if>
 		</where>
 		<choose>
@@ -39,10 +49,11 @@
 			</otherwise>
 		</choose>
 	</select>
-	
-	<select id="findAllList" resultType="City">
+
+
+	<select id="findAllList" resultMap="cityMap" >
 		SELECT 
-			<include refid="cityColumns"/>
+			*
 		FROM city a
 		<include refid="cityJoins"/>
 		<where>
@@ -56,35 +67,39 @@
 			</otherwise>
 		</choose>
 	</select>
-	
+
 	<insert id="insert" parameterType="com.thinkgem.jeesite.modules.org.huluo.hello.entity.world.City">
 		INSERT INTO city(
+			city_id,
 			city_name,
-			country_id
+			country_city_id
 		) VALUES (
+			#{id},
 			#{cityName},
-
-			 CAST(#{country.id} AS SIGNED)
+			#{country.id}
 		)
 	</insert>
 	
-	<update id="update" parameterType="com.thinkgem.jeesite.modules.org.huluo.hello.entity.world.City">
+	<update id="update" parameterType="com.thinkgem.jeesite.modules.org.huluo.hello.entity.world.City" >
 		UPDATE city SET 	
+
 			city_name = #{cityName},
-			country_id = #{country.id}
-		WHERE id = #{id}
+			country_city_id = #{country.id}
+		WHERE city_id = #{id}
 	</update>
 	
-	<update id="delete" parameterType="com.thinkgem.jeesite.modules.org.huluo.hello.entity.world.City">
+	<update id="delete"  parameterType="com.thinkgem.jeesite.modules.org.huluo.hello.entity.world.City"  >
 		DELETE FROM city
+
 		<choose>
-			<when test="id !=null and id != ''">
-				WHERE id = #{id}
+			<when test="id !=null and id!='' ">
+				WHERE city_id = #{id}
 			</when>
 			<otherwise>
-				WHERE country_id = #{country.id}
+				WHERE country_city_id = #{country.id}
 			</otherwise>
 		</choose>
+
 	</update>
 	
 </mapper>

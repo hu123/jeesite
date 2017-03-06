@@ -36,21 +36,22 @@ public class CountryController extends BaseController {
 	
 	@ModelAttribute
 	public Country get(@RequestParam(required=false) String id) {
+		logger.warn("get方法得到调用");
 		Country entity = null;
 		if (StringUtils.isNotBlank(id)){
 			entity = countryService.get(id);
-			logger.warn("拿到的entity是" + entity);
 		}
 		if (entity == null){
 			entity = new Country();
 		}
 		return entity;
 	}
-	
+
 	@RequiresPermissions("cms:article:view")
 	@RequestMapping(value = {"list", ""})
 	public String list(Country country, HttpServletRequest request, HttpServletResponse response, Model model) {
-		Page<Country> page = countryService.findPage(new Page<Country>(request, response), country); 
+		logger.warn("list方法得到调用");
+		Page<Country> page = countryService.findPage(new Page<Country>(request, response), country);
 		model.addAttribute("page", page);
 		return "huluo/hello/world/countryList";
 	}
@@ -58,6 +59,7 @@ public class CountryController extends BaseController {
 	@RequiresPermissions("cms:article:view")
 	@RequestMapping(value = "form")
 	public String form(Country country, Model model) {
+		logger.warn("form方法得到调用");
 		model.addAttribute("country", country);
 		return "huluo/hello/world/countryForm";
 	}
@@ -65,6 +67,7 @@ public class CountryController extends BaseController {
 	@RequiresPermissions("cms:article:view")
 	@RequestMapping(value = "save")
 	public String save(Country country, Model model, RedirectAttributes redirectAttributes) {
+		logger.warn("save方法得到调用");
 		if (!beanValidator(model, country)){
 			return form(country, model);
 		}
@@ -76,6 +79,7 @@ public class CountryController extends BaseController {
 	@RequiresPermissions("cms:article:view")
 	@RequestMapping(value = "delete")
 	public String delete(Country country, RedirectAttributes redirectAttributes) {
+		logger.warn("delete方法得到调用");
 		countryService.delete(country);
 		addMessage(redirectAttributes, "删除cityCountry一对多增删改查成功");
 		return "redirect:"+Global.getAdminPath()+"/hello/world/country/?repage";

@@ -67,7 +67,7 @@
 		<div class="control-group">
 			<label class="control-label">country_name：</label>
 			<div class="controls">
-				<form:input path="countryName" htmlEscape="false" maxlength="10" class="input-xlarge "/>
+				<form:input path="countryName" htmlEscape="false" maxlength="20" class="input-xlarge "/>
 			</div>
 		</div>
 			<div class="control-group">
@@ -94,7 +94,7 @@
 								<input id="cityList{{idx}}_delFlag" name="cityList[{{idx}}].delFlag" type="hidden" value="0"/>
 							</td>
 							<td>
-								<input id="cityList{{idx}}_cityName" name="cityList[{{idx}}].cityName" type="text" value="{{row.cityName}}" maxlength="10" class="input-small "/>
+								<input id="cityList{{idx}}_cityName" name="cityList[{{idx}}].cityName" type="text" value="{{row.cityName}}" maxlength="20" class="input-small "/>
 							</td>
 							<shiro:hasPermission name="cms:article:view"><td class="text-center" width="10">
 								{{#delBtn}}<span class="close" onclick="delRow(this, '#cityList{{idx}}')" title="删除">&times;</span>{{/delBtn}}

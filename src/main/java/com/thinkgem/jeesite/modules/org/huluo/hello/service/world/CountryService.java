@@ -5,7 +5,6 @@ package com.thinkgem.jeesite.modules.org.huluo.hello.service.world;
 
 import java.util.List;
 
-import org.apache.poi.ss.formula.functions.Count;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -32,10 +31,7 @@ public class CountryService extends CrudService<CountryDao, Country> {
 	
 	public Country get(String id) {
 		Country country = super.get(id);
-		logger.warn("拿到的country是"+ country);
-		List<City> list = cityDao.findList(new City(country));
-		System.out.println("拿到的与country对象关联的集合是" + list);
-		country.setCityList(list);
+		country.setCityList(cityDao.findList(new City(country)));
 		return country;
 	}
 	
@@ -50,16 +46,12 @@ public class CountryService extends CrudService<CountryDao, Country> {
 	@Transactional(readOnly = false)
 	public void save(Country country) {
 		super.save(country);
-		logger.warn("走到这里应该是没问题的");
 		for (City city : country.getCityList()){
 			if (city.getId() == null){
 				continue;
 			}
 			if (City.DEL_FLAG_NORMAL.equals(city.getDelFlag())){
 				if (StringUtils.isBlank(city.getId())){
-					System.out.println("能进来么???");
-					System.out.println(city);
-//					country.setId("1");
 					city.setCountry(country);
 					city.preInsert();
 					cityDao.insert(city);

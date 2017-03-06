@@ -28,7 +28,7 @@ public class Country extends DataEntity<Country> {
 		super(id);
 	}
 
-	@Length(min=0, max=10, message="country_name长度必须介于 0 和 10 之间")
+	@Length(min=0, max=20, message="country_name长度必须介于 0 和 20 之间")
 	public String getCountryName() {
 		return countryName;
 	}
@@ -45,9 +45,4 @@ public class Country extends DataEntity<Country> {
 		this.cityList = cityList;
 	}
 
-
-	@Override
-	public String toString() {
-		return "id是" + this.id + "," + "country名字是:" + this.countryName;
-	}
 }
